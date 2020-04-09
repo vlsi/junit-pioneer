@@ -12,10 +12,8 @@ package org.junitpioneer.jupiter;
 
 import static java.util.stream.Collectors.toList;
 
-import java.util.AbstractMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 
 import org.junit.platform.engine.reporting.ReportEntry;
 import org.junit.platform.engine.test.event.ExecutionEventRecorder;
@@ -25,15 +23,9 @@ public class TestUtils {
 	static List<Map<String, String>> reportEntries(ExecutionEventRecorder recorder) {
 		return recorder
 				.eventStream()
-				.map(executionEvent -> executionEvent.getPayload(ReportEntry.class))
-				.filter(Optional::isPresent)
-				.map(Optional::get)
+				.flatMap(executionEvent -> executionEvent.getPayload(ReportEntry.class).stream())
 				.map(ReportEntry::getKeyValuePairs)
 				.collect(toList());
-	}
-
-	static Map.Entry<String, String> entryOf(String key, String value) {
-		return new AbstractMap.SimpleEntry<>(key, value);
 	}
 
 }

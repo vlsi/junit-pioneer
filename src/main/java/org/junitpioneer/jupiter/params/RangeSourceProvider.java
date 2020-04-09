@@ -63,8 +63,8 @@ class RangeSourceProvider implements ArgumentsProvider {
 							.format("Expected exactly one annotation to provide an ArgumentSource, found %d.",
 								argumentsSources.size()));
 		Annotation argumentsSource = argumentsSources.get(0);
-		Class<? extends Annotation> argumentsSourceClass = argumentsSource.annotationType();
-		Class<? extends Range> rangeClass = argumentsSourceClass.getAnnotation(RangeClass.class).value();
+		var argumentsSourceClass = argumentsSource.annotationType();
+		var rangeClass = argumentsSourceClass.getAnnotation(RangeClass.class).value();
 
 		Range<?> range = (Range) rangeClass.getConstructors()[0].newInstance(argumentsSource);
 		range.validate();

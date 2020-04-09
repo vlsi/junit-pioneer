@@ -42,7 +42,7 @@ class DefaultLocaleExtension implements BeforeAllCallback, BeforeEachCallback, A
 
 	private void setDefaultLocale(ExtensionContext context, DefaultLocale annotation) {
 		storeDefaultLocale(context);
-		Locale configuredLocale = createLocale(annotation);
+		var configuredLocale = createLocale(annotation);
 		Locale.setDefault(configuredLocale);
 	}
 

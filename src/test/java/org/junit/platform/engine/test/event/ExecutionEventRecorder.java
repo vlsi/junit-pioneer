@@ -47,9 +47,8 @@ import org.junit.platform.engine.test.event.ExecutionEvent.Type;
 public class ExecutionEventRecorder implements EngineExecutionListener {
 
 	public static List<ExecutionEvent> execute(TestEngine testEngine, EngineDiscoveryRequest discoveryRequest) {
-		TestDescriptor engineTestDescriptor = testEngine
-				.discover(discoveryRequest, UniqueId.forEngine(testEngine.getId()));
-		ExecutionEventRecorder listener = new ExecutionEventRecorder();
+		var engineTestDescriptor = testEngine.discover(discoveryRequest, UniqueId.forEngine(testEngine.getId()));
+		var listener = new ExecutionEventRecorder();
 		testEngine
 				.execute(new ExecutionRequest(engineTestDescriptor, listener,
 					discoveryRequest.getConfigurationParameters()));

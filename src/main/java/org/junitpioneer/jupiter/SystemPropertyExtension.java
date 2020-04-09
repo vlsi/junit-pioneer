@@ -94,7 +94,7 @@ class SystemPropertyExtension implements BeforeAllCallback, BeforeEachCallback, 
 
 	@Override
 	public void afterEach(ExtensionContext context) throws Exception {
-		boolean present = PioneerAnnotationUtils
+		var present = PioneerAnnotationUtils
 				.isAnyAnnotationPresent(context, ClearSystemProperty.class, ClearSystemProperties.class,
 					SetSystemProperty.class, SetSystemProperties.class);
 		if (present) {
@@ -123,11 +123,11 @@ class SystemPropertyExtension implements BeforeAllCallback, BeforeEachCallback, 
 			propertiesToSet = new HashMap<>();
 			propertiesToUnset = new HashSet<>();
 			Stream.concat(clearProperties.stream(), setProperties.stream()).forEach(property -> {
-				String backup = System.getProperty(property);
-				if (backup == null)
+				var backupValue = System.getProperty(property);
+				if (backupValue == null)
 					propertiesToUnset.add(property);
 				else
-					propertiesToSet.put(property, backup);
+					propertiesToSet.put(property, backupValue);
 			});
 		}
 

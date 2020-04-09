@@ -30,7 +30,7 @@ public class ReportEntryExtensionTest extends AbstractJupiterTestEngineTests {
 		assertThat(reportEntries).hasSize(1);
 		Map<String, String> reportEntry = reportEntries.get(0);
 		assertThat(reportEntry).hasSize(1);
-		assertThat(reportEntry).containsExactly(TestUtils.entryOf("Crow2", "While I pondered weak and weary"));
+		assertThat(reportEntry).containsExactly(Map.entry("Crow2", "While I pondered weak and weary"));
 	}
 
 	@Test
@@ -41,7 +41,7 @@ public class ReportEntryExtensionTest extends AbstractJupiterTestEngineTests {
 		assertThat(reportEntries).hasSize(1);
 		assertThat(reportEntries.get(0)).satisfies(reportEntry -> {
 			assertThat(reportEntry).hasSize(1);
-			assertThat(reportEntry).containsExactly(TestUtils.entryOf("value", "Once upon a midnight dreary"));
+			assertThat(reportEntry).containsExactly(Map.entry("value", "Once upon a midnight dreary"));
 		});
 	}
 

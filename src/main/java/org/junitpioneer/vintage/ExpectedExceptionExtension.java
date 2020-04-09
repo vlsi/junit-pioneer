@@ -40,7 +40,7 @@ class ExpectedExceptionExtension implements TestExecutionExceptionHandler, After
 
 	@Override
 	public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
-		boolean throwableMatchesExpectedException = expectedException(context)
+		var throwableMatchesExpectedException = expectedException(context)
 				.filter(expected -> expected.isInstance(throwable))
 				.isPresent();
 

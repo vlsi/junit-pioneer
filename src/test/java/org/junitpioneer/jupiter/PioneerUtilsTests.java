@@ -16,7 +16,6 @@ import static org.assertj.core.api.Assertions.assertThatThrownBy;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.function.BiConsumer;
-import java.util.function.BinaryOperator;
 import java.util.stream.Collector;
 
 import org.junit.jupiter.api.BeforeEach;
@@ -67,14 +66,14 @@ class PioneerUtilsTests {
 		@DisplayName("should combine sets with new elements")
 		void combinerShouldCombineSetsWithNewElements() throws Exception {
 			Set<Object> left = new HashSet<>();
-			Object leftElement = new Object();
+			var leftElement = new Object();
 			left.add(leftElement);
 
 			Set<Object> right = new HashSet<>();
-			Object rightElement = new Object();
+			var rightElement = new Object();
 			right.add(rightElement);
 
-			BinaryOperator<Set<Object>> combiner = collector.combiner();
+			var combiner = collector.combiner();
 
 			assertThat(combiner.apply(left, right)).containsExactlyInAnyOrder(leftElement, rightElement);
 		}
@@ -90,7 +89,7 @@ class PioneerUtilsTests {
 			Set<Object> right = new HashSet<>();
 			right.add(element);
 
-			BinaryOperator<Set<Object>> combiner = collector.combiner();
+			var combiner = collector.combiner();
 
 			assertThatThrownBy(() -> combiner.apply(left, right)).isInstanceOf(IllegalStateException.class);
 		}

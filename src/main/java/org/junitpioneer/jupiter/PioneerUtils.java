@@ -38,8 +38,8 @@ class PioneerUtils {
 	}
 
 	private static <T> void addButThrowIfDuplicate(Set<T> set, T element) {
-		boolean newElement = set.add(element);
-		if (!newElement) {
+		var elementIsNew = set.add(element);
+		if (!elementIsNew) {
 			throw new IllegalStateException("Duplicate element '" + element + "'.");
 		}
 	}

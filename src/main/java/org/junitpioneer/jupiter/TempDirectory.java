@@ -226,7 +226,7 @@ public class TempDirectory implements ParameterResolver {
 
 	@Override
 	public Object resolveParameter(ParameterContext parameterContext, ExtensionContext extensionContext) {
-		Class<?> parameterType = parameterContext.getParameter().getType();
+		var parameterType = parameterContext.getParameter().getType();
 		if (parameterType != Path.class) {
 			throw new ParameterResolutionException(
 				"Can only resolve parameter of type " + Path.class.getName() + " but was: " + parameterType.getName());
@@ -280,9 +280,9 @@ public class TempDirectory implements ParameterResolver {
 
 		@Override
 		public void close() throws IOException {
-			SortedMap<Path, IOException> failures = deleteAllFilesAndDirectories();
-			if (!failures.isEmpty()) {
-				throw createIOExceptionWithAttachedFailures(failures);
+			var failuresByPath = deleteAllFilesAndDirectories();
+			if (!failuresByPath.isEmpty()) {
+				throw createIOExceptionWithAttachedFailures(failuresByPath);
 			}
 		}
 
@@ -326,18 +326,18 @@ public class TempDirectory implements ParameterResolver {
 		}
 
 		private IOException createIOExceptionWithAttachedFailures(SortedMap<Path, IOException> failures) {
-			String joinedPaths = failures
+			var joinedPaths = failures
 					.keySet()
 					.stream()
 					.peek(this::tryToDeleteOnExit)
 					.map(this::relativizeSafely)
 					.map(String::valueOf)
 					.collect(joining(", "));
-			IOException exception = new IOException("Failed to delete temp directory " + dir.toAbsolutePath()
+			var ioException = new IOException("Failed to delete temp directory " + dir.toAbsolutePath()
 					+ ". The following paths could not be deleted (see suppressed exceptions for details): "
 					+ joinedPaths);
-			failures.values().forEach(exception::addSuppressed);
-			return exception;
+			failures.values().forEach(ioException::addSuppressed);
+			return ioException;
 		}
 
 		private void tryToDeleteOnExit(Path path) {

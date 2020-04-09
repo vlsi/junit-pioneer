@@ -37,9 +37,9 @@ public class TestEngineSpy implements TestEngine {
 		this.discoveryRequestForDiscovery = discoveryRequest;
 		this.uniqueIdForDiscovery = uniqueId;
 
-		UniqueId engineUniqueId = UniqueId.forEngine(ID);
-		TestDescriptorStub engineDescriptor = new TestDescriptorStub(engineUniqueId, ID);
-		TestDescriptorStub testDescriptor = new TestDescriptorStub(engineUniqueId.append("test", "test"), "test");
+		var engineUniqueId = UniqueId.forEngine(ID);
+		var engineDescriptor = new TestDescriptorStub(engineUniqueId, ID);
+		var testDescriptor = new TestDescriptorStub(engineUniqueId.append("test", "test"), "test");
 		engineDescriptor.addChild(testDescriptor);
 		return engineDescriptor;
 	}

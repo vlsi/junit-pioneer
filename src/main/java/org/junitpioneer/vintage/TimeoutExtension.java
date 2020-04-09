@@ -51,7 +51,7 @@ class TimeoutExtension implements BeforeTestExecutionCallback, AfterTestExecutio
 		long elapsedTime = currentTimeMillis() - launchTime;
 
 		if (elapsedTime > timeout) {
-			String message = format(TEST_RAN_TOO_LONG, context.getDisplayName(), timeout, elapsedTime);
+			var message = format(TEST_RAN_TOO_LONG, context.getDisplayName(), timeout, elapsedTime);
 			throw new AssertionError(message);
 		}
 	}

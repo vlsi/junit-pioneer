@@ -19,7 +19,6 @@ import org.junit.jupiter.engine.AbstractJupiterTestEngineTests;
 import org.junit.platform.engine.DiscoverySelector;
 import org.junit.platform.engine.discovery.MethodSelector;
 import org.junit.platform.engine.test.event.ExecutionEventRecorder;
-import org.junit.platform.launcher.LauncherDiscoveryRequest;
 
 public abstract class AbstractPioneerTestEngineTests extends AbstractJupiterTestEngineTests {
 
@@ -31,26 +30,26 @@ public abstract class AbstractPioneerTestEngineTests extends AbstractJupiterTest
 	}
 
 	private ExecutionEventRecorder executeTestClass(Class<?> type) {
-		LauncherDiscoveryRequest request = request().selectors(selectClass(type)).build();
+		var request = request().selectors(selectClass(type)).build();
 		return executeTests(request);
 	}
 
 	private ExecutionEventRecorder executeTestMethods(Class<?> type, String[] methodSignatures) {
-		DiscoverySelector[] selectors = stream(methodSignatures)
+		var selectors = stream(methodSignatures)
 				.map(methodSignature -> selectMethodWithPossibleParameters(type, methodSignature))
 				.toArray(DiscoverySelector[]::new);
-		LauncherDiscoveryRequest request = request().selectors(selectors).build();
+		var request = request().selectors(selectors).build();
 		return executeTests(request);
 	}
 
 	private MethodSelector selectMethodWithPossibleParameters(Class<?> type, String methodSignature) {
 		int open = methodSignature.indexOf('(');
 		int close = methodSignature.indexOf(')');
-		boolean hasValidParameters = 0 < open && open < close && close == methodSignature.length() - 1;
+		var hasValidParameters = 0 < open && open < close && close == methodSignature.length() - 1;
 
 		if (hasValidParameters) {
-			String methodName = methodSignature.substring(0, open);
-			String methodParameters = methodSignature.substring(open + 1, close);
+			var methodName = methodSignature.substring(0, open);
+			var methodParameters = methodSignature.substring(open + 1, close);
 			return selectMethod(type, methodName, methodParameters);
 		} else {
 			return selectMethod(type, methodSignature);

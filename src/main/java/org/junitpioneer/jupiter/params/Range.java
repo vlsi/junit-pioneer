@@ -86,7 +86,7 @@ abstract class Range<N extends Number & Comparable<N>> implements Iterator<N> {
 		if (current == null) {
 			return true;
 		}
-		N nextValue = getNextValue();
+		var nextValue = getNextValue();
 		int cmp = nextValue.compareTo(to);
 		int overflowCheck = nextValue.compareTo(current);
 		return ((cmp < 0 != sign < 0) && (overflowCheck < 0 == sign < 0)) || (closed && cmp == 0);

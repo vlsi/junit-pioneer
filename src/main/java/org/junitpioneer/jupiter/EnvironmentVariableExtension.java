@@ -91,17 +91,17 @@ class EnvironmentVariableExtension
 	}
 
 	private void reportWarning(ExtensionContext context) {
-		boolean wasReported = REPORTED_WARNING.getAndSet(true);
+		var wasReported = REPORTED_WARNING.getAndSet(true);
 		if (!wasReported)
 			context.publishReportEntry(WARNING_KEY, WARNING_VALUE);
 	}
 
 	@Override
 	public void afterEach(ExtensionContext context) {
-		boolean present = PioneerAnnotationUtils
+		var isPresent = PioneerAnnotationUtils
 				.isAnyAnnotationPresent(context, ClearEnvironmentVariable.class, ClearEnvironmentVariables.class,
 					SetEnvironmentVariable.class, SetEnvironmentVariables.class);
-		if (present) {
+		if (isPresent) {
 			restoreOriginalEnvironmentVariables(context);
 		}
 	}
@@ -127,7 +127,7 @@ class EnvironmentVariableExtension
 			variablesToSet = new HashMap<>();
 			variablesToUnset = new HashSet<>();
 			Stream.concat(clearVariables.stream(), setVariables.stream()).forEach(variable -> {
-				String backup = System.getenv(variable); // NOSONAR access required to implement the extension
+				var backup = System.getenv(variable); // NOSONAR access required to implement the extension
 				if (backup == null)
 					variablesToUnset.add(variable);
 				else

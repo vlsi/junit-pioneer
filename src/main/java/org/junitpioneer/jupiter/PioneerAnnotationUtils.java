@@ -129,15 +129,16 @@ class PioneerAnnotationUtils {
 		 * `AnnotationSupport::findAnnotation` (depending on arguments, thus handling the repeatable case).
 		 * Both of these methods check for _meta-presence_ and _indirect presence_.
 		 */
-		List<A> onMethod = context
+		var annotationsOnMethod = context
 				.getTestMethod()
 				.map(method -> findOnElement(method, annotationType, findRepeated))
 				.orElse(Collections.emptyList());
-		if (!findAllEnclosing && !onMethod.isEmpty())
-			return onMethod.stream();
-		Stream<A> onClass = findOnOuterClasses(context.getTestClass(), annotationType, findRepeated, findAllEnclosing);
+		if (!findAllEnclosing && !annotationsOnMethod.isEmpty())
+			return annotationsOnMethod.stream();
+		var annotationsOnClass = findOnOuterClasses(context.getTestClass(), annotationType, findRepeated,
+			findAllEnclosing);
 
-		return Stream.concat(onMethod.stream(), onClass);
+		return Stream.concat(annotationsOnMethod.stream(), annotationsOnClass);
 	}
 
 	private static <A extends Annotation> List<A> findOnElement(AnnotatedElement element, Class<A> annotationType,
@@ -153,16 +154,16 @@ class PioneerAnnotationUtils {
 
 	private static <A extends Annotation> Stream<A> findOnOuterClasses(Optional<Class<?>> type, Class<A> annotationType,
 			boolean findRepeated, boolean findAllEnclosing) {
-		if (!type.isPresent())
+		if (type.isEmpty())
 			return Stream.empty();
 
-		List<A> onThisClass = findOnElement(type.get(), annotationType, findRepeated);
-		if (!findAllEnclosing && !onThisClass.isEmpty())
-			return onThisClass.stream();
+		var annotationsOnThisClass = findOnElement(type.get(), annotationType, findRepeated);
+		if (!findAllEnclosing && !annotationsOnThisClass.isEmpty())
+			return annotationsOnThisClass.stream();
 
-		Stream<A> onParentClass = findOnOuterClasses(type.map(Class::getEnclosingClass), annotationType, findRepeated,
-			findAllEnclosing);
-		return Stream.concat(onThisClass.stream(), onParentClass);
+		var annotationsOnParentClass = findOnOuterClasses(type.map(Class::getEnclosingClass), annotationType,
+			findRepeated, findAllEnclosing);
+		return Stream.concat(annotationsOnThisClass.stream(), annotationsOnParentClass);
 	}
 
 }

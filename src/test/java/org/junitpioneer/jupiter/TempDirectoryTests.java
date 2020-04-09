@@ -364,7 +364,7 @@ class TempDirectoryTests extends AbstractPioneerTestEngineTests {
 
 		@BeforeEach
 		void beforeEach(@TempDir Path tempDir) {
-			for (Path dir : tempDirs) {
+			for (var dir : tempDirs) {
 				assertThat(dir).doesNotExist();
 			}
 			assertThat(tempDirs).doesNotContain(tempDir);

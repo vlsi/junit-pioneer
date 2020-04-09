@@ -42,7 +42,7 @@ class DefaultTimeZoneExtension implements BeforeAllCallback, BeforeEachCallback,
 
 	private void setDefaultTimeZone(Store store, DefaultTimeZone annotation) {
 		storeDefaultTimeZone(store);
-		TimeZone configuredTimeZone = TimeZone.getTimeZone(annotation.value());
+		var configuredTimeZone = TimeZone.getTimeZone(annotation.value());
 		TimeZone.setDefault(configuredTimeZone);
 	}
 

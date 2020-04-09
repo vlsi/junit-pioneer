@@ -10,7 +10,6 @@
 
 package org.junitpioneer.jupiter;
 
-import java.lang.reflect.Field;
 import java.util.Collection;
 import java.util.Map;
 import java.util.function.Consumer;
@@ -89,7 +88,7 @@ class EnvironmentVariableUtils {
 	 */
 	private static void setInProcessEnvironmentClass(Consumer<Map<String, String>> consumer)
 			throws ReflectiveOperationException {
-		Class<?> processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
+		var processEnvironmentClass = Class.forName("java.lang.ProcessEnvironment");
 		consumer.accept(getFieldValue(processEnvironmentClass, null, "theEnvironment"));
 		consumer.accept(getFieldValue(processEnvironmentClass, null, "theCaseInsensitiveEnvironment"));
 	}
@@ -99,14 +98,14 @@ class EnvironmentVariableUtils {
 	 */
 	private static void setInSystemEnvClass(Consumer<Map<String, String>> consumer)
 			throws ReflectiveOperationException {
-		Map<String, String> env = System.getenv(); // NOSONAR access required to implement the extension
-		consumer.accept(getFieldValue(env.getClass(), env, "m"));
+		var environment = System.getenv(); // NOSONAR access required to implement the extension
+		consumer.accept(getFieldValue(environment.getClass(), environment, "m"));
 	}
 
 	@SuppressWarnings("unchecked")
 	private static Map<String, String> getFieldValue(Class<?> clazz, Object object, String name)
 			throws ReflectiveOperationException {
-		Field field = clazz.getDeclaredField(name);
+		var field = clazz.getDeclaredField(name);
 		field.setAccessible(true); // NOSONAR illegal access required to implement the extension
 		return (Map<String, String>) field.get(object);
 	}

@@ -40,7 +40,7 @@ public class RepeatFailedTestExtension implements TestTemplateInvocationContextP
 
 	@Override
 	public Stream<TestTemplateInvocationContext> provideTestTemplateInvocationContexts(ExtensionContext context) {
-		FailedTestRepeater repeater = repeaterFor(context);
+		var repeater = repeaterFor(context);
 		return stream(spliteratorUnknownSize(repeater, ORDERED), false);
 	}
 
@@ -48,7 +48,7 @@ public class RepeatFailedTestExtension implements TestTemplateInvocationContextP
 	public void handleTestExecutionException(ExtensionContext context, Throwable throwable) throws Throwable {
 		// this `context` (M) is a child of the context passed to `provideTestTemplateInvocationContexts` (T),
 		// which means M's store content is invisible to T's store; this can be fixed by using T's store here
-		ExtensionContext templateContext = context
+		var templateContext = context
 				.getParent()
 				.orElseThrow(() -> new IllegalStateException(
 					"Extension context \"" + context + "\" should have a parent context."));
@@ -56,7 +56,7 @@ public class RepeatFailedTestExtension implements TestTemplateInvocationContextP
 	}
 
 	private static FailedTestRepeater repeaterFor(ExtensionContext context) {
-		Method repeatedTest = context.getRequiredTestMethod();
+		var repeatedTest = context.getRequiredTestMethod();
 		return context
 				.getStore(NAMESPACE)
 				.getOrComputeIfAbsent(repeatedTest.toString(), __ -> FailedTestRepeater.createFor(repeatedTest),
@@ -77,7 +77,7 @@ public class RepeatFailedTestExtension implements TestTemplateInvocationContextP
 		}
 
 		static FailedTestRepeater createFor(Method repeatedTest) {
-			RepeatFailedTest repeatFailedTest = AnnotationSupport
+			var repeatFailedTest = AnnotationSupport
 					.findAnnotation(repeatedTest, RepeatFailedTest.class)
 					.orElseThrow(() -> new IllegalStateException("@RepeatFailedTest is missing."));
 			return new FailedTestRepeater(repeatFailedTest.value());
@@ -86,7 +86,7 @@ public class RepeatFailedTestExtension implements TestTemplateInvocationContextP
 		void failed(Throwable exception) throws Throwable {
 			exceptionsSoFar++;
 
-			boolean allRepetitionsFailed = exceptionsSoFar == maxRepetitions;
+			var allRepetitionsFailed = exceptionsSoFar == maxRepetitions;
 			if (allRepetitionsFailed)
 				throw new AssertionError(
 					format("Test execution #%d (of up to %d) failed ~> test fails - see cause for details",
@@ -105,8 +105,8 @@ public class RepeatFailedTestExtension implements TestTemplateInvocationContextP
 				return true;
 
 			// if we caught an exception in each repetition, each repetition failed, including the previous one
-			boolean previousFailed = repetitionsSoFar == exceptionsSoFar;
-			boolean maxRepetitionsReached = repetitionsSoFar == maxRepetitions;
+			var previousFailed = repetitionsSoFar == exceptionsSoFar;
+			var maxRepetitionsReached = repetitionsSoFar == maxRepetitions;
 			return previousFailed && !maxRepetitionsReached;
 		}
 

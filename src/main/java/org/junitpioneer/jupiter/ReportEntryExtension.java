@@ -28,7 +28,7 @@ class ReportEntryExtension implements BeforeEachCallback {
 
 	private static void verifyKeyValueAreNotBlank(ReportEntry entry) {
 		if (entry.key().isEmpty() || entry.value().isEmpty()) {
-			String message = "Report entries can't have blank key or value: { key=\"%s\", value=\"%s\" }";
+			var message = "Report entries can't have blank key or value: { key=\"%s\", value=\"%s\" }";
 			throw new ExtensionConfigurationException(format(message, entry.key(), entry.value()));
 		}
 	}

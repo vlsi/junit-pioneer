@@ -39,8 +39,8 @@ public abstract class AbstractJupiterTestEngineTests {
 	}
 
 	protected ExecutionEventRecorder executeTests(LauncherDiscoveryRequest request) {
-		TestDescriptor testDescriptor = discoverTests(request);
-		ExecutionEventRecorder eventRecorder = new ExecutionEventRecorder();
+		var testDescriptor = discoverTests(request);
+		var eventRecorder = new ExecutionEventRecorder();
 		engine.execute(new ExecutionRequest(testDescriptor, eventRecorder, request.getConfigurationParameters()));
 		return eventRecorder;
 	}

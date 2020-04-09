@@ -262,7 +262,7 @@ class EnvironmentVariableExtensionTests extends AbstractPioneerTestEngineTests {
 			List<Map<String, String>> reportEntries = TestUtils.reportEntries(eventRecorder);
 			assertThat(reportEntries).hasSize(1);
 			Map<String, String> reportEntry = reportEntries.get(0);
-			assertThat(reportEntry).containsExactly(TestUtils.entryOf(WARNING_KEY, WARNING_VALUE));
+			assertThat(reportEntry).containsExactly(Map.entry(WARNING_KEY, WARNING_VALUE));
 		}
 
 		@Test
