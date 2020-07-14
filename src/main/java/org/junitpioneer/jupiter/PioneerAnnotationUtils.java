@@ -37,7 +37,7 @@ import org.junit.platform.commons.support.AnnotationSupport;
  * <em>meta-present</em> it can present on an annotation that is present on another annotation
  * that is present on the element.
  */
-class PioneerAnnotationUtils {
+public class PioneerAnnotationUtils {
 
 	private PioneerAnnotationUtils() {
 		// private constructor to prevent instantiation of utility class
