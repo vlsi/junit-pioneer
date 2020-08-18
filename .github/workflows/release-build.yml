@@ -22,7 +22,7 @@ jobs:
         with:
           java-version: 8
       - name: Perform release
-        uses: eskatos/gradle-command-action@v1
+        uses: burrunan/gradle-cache-action@release
         env:
           # shipkit does not support GitHub Actions for now, hence that we simulate to be Travis CI
           TRAVIS_BRANCH: master
@@ -34,7 +34,9 @@ jobs:
           NEXUS_TOKEN_USERNAME: ${{ secrets.NEXUS_TOKEN_USERNAME }}
           NEXUS_TOKEN_PASSWORD: ${{ secrets.NEXUS_TOKEN_PASSWORD }}
         with:
+          job-id: jdk8
           arguments: ciPerformRelease
+          multi-cache-repository: https://oss.sonatype.org/content/repositories/comgithubburrunan-1010
       - name: Trigger website build
         uses: peter-evans/repository-dispatch@v1
         with:
